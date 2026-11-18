@@ -10,6 +10,8 @@ This extension fills that gap until JetBrains ships it.
 
 > Not affiliated with or endorsed by JetBrains. YouTrack is a trademark of JetBrains s.r.o.
 
+![Notifier for YouTrack – desktop notification and popup list](docs/overview.png)
+
 ## Features
 
 - **Mirrors the 🔔 bell.** Follows your YouTrack notification settings, subscriptions and muted threads.
@@ -25,6 +27,18 @@ This extension fills that gap until JetBrains ships it.
 
 Works with YouTrack Cloud. Self-hosted YouTrack Server should work on versions that have the new notification
 center; older servers can use the activity-query mode.
+
+## Screenshots
+
+| Notification | Popup (light) | Popup (dark) |
+|---|---|---|
+| ![Desktop notification with Mark read and Watch buttons](docs/notification.png) | ![Popup list of recent notifications](docs/popup-light.png) | ![Popup in dark mode](docs/popup-dark.png) |
+
+Notification appearance depends on your operating system. Settings page:
+
+<img src="docs/options.png" alt="Settings page" width="480">
+
+_All screenshots use made-up demo data._
 
 ## Install
 
