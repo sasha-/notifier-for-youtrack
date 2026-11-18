@@ -1,0 +1,33 @@
+name: Release
+
+# Push a tag like v1.4.1 (matching "version" in extension/manifest.json)
+# and this builds the zip and attaches it to a GitHub release.
+on:
+  push:
+    tags: ["v*"]
+
+permissions:
+  contents: write
+
+jobs:
+  release:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: lts/*
+
+      - name: Build zip
+        env:
+          EXPECT_VERSION: ${{ github.ref_name }}
+        run: bash scripts/package.sh
+
+      - name: Create GitHub release
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          gh release create "${{ github.ref_name }}" dist/*.zip \
+            --title "${{ github.ref_name }}" \
+            --notes "See [CHANGELOG.md](CHANGELOG.md). Install: download the zip, unzip it, then chrome://extensions → Developer mode → Load unpacked."

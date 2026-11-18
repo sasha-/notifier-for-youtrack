@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <title>Notifier for YouTrack – Options</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body class="options">
+  <h1>Notifier for YouTrack</h1>
+  <p class="sub">Not affiliated with JetBrains. Your token and data stay in this browser and are only sent to your own YouTrack.</p>
+
+  <label>YouTrack URL
+    <input id="baseUrl" type="url" placeholder="https://yourcompany.youtrack.cloud">
+    <small>Self-hosted with a path? Include it, e.g. https://example.com/youtrack</small>
+  </label>
+
+  <label>Permanent token
+    <input id="token" type="password" placeholder="perm:…">
+    <small>YouTrack → your avatar → Profile → Account Security → Tokens → New token (scope: YouTrack). Stored only in this browser.</small>
+  </label>
+
+  <label>Notify me about
+    <select id="source">
+      <option value="inbox">Everything in my YouTrack notification center (the 🔔 bell)</option>
+      <option value="activity">Activity on issues matching a search query</option>
+    </select>
+    <small id="sourceHelp"></small>
+  </label>
+
+  <div id="activityOnly">
+  <label>Which issues to watch (YouTrack search query)
+    <textarea id="query" rows="2"></textarea>
+    <small>Default: issues assigned to you, reported by you, starred (watched) by you, or that you've commented on. Any YouTrack search works, e.g. <code>project: OPS</code>.</small>
+  </label>
+
+  <label>Check every (minutes)
+    <input id="pollMinutes" type="number" min="0.5" step="0.5">
+  </label>
+
+  <label class="check"><input id="includeFieldChanges" type="checkbox"> Notify on field changes (state, assignee, priority…)</label>
+  <label class="check"><input id="includeOwn" type="checkbox"> Notify on my own changes</label>
+  </div>
+  <label class="check"><input id="sticky" type="checkbox"> Keep notifications on screen until I dismiss them</label>
+
+  <div class="buttons">
+    <button id="save" class="primary">Save</button>
+    <button id="test">Test connection</button>
+    <button id="testNotif">Test notification</button>
+  </div>
+  <div id="status"></div>
+
+  <script src="options.js" type="module"></script>
+</body>
+</html>
