@@ -1,4 +1,4 @@
-import { getSettings, checkNow as checkActivity, testConnection, markRead, setStar, notifButtons, refreshBadge } from "./lib.js";
+import { getSettings, checkNow as checkActivity, testConnection, markRead, setStar, notifButtons, refreshBadge, openUrl } from "./lib.js";
 import { checkInbox, testInbox } from "./inbox.js";
 
 async function checkNow() {
@@ -72,7 +72,7 @@ chrome.storage.onChanged.addListener((changes, area) => {
 chrome.notifications.onClicked.addListener(async (nid) => {
   const map = await getNotifMap();
   const info = map[nid];
-  if (info && info.url) chrome.tabs.create({ url: info.url });
+  if (info && info.url) await openUrl(info.url);
   if (info && info.itemId) await markRead([info.itemId]);
   else if (info && info.moreIds) await markRead(info.moreIds);
   chrome.notifications.clear(nid);
@@ -119,6 +119,7 @@ chrome.runtime.onMessage.addListener((msg, _sender, sendResponse) => {
   (async () => {
     try {
       if (msg.type === "checkNow") return sendResponse(await checkNow());
+      if (msg.type === "openUrl") { await openUrl(msg.url); return sendResponse({ ok: true }); }
       if (msg.type === "test") return sendResponse({ ok: true, ...(await testNow()) });
       if (msg.type === "markRead") { await markRead(msg.ids || "all", msg.read !== false); return sendResponse({ ok: true }); }
       if (msg.type === "setStar") { const s = await setStar(msg.issueDbId, msg.star); return sendResponse({ ok: true, starred: s }); }

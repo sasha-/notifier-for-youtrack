@@ -25,6 +25,7 @@ async function load() {
   $("includeFieldChanges").checked = s.includeFieldChanges;
   $("includeOwn").checked = s.includeOwn;
   $("sticky").checked = s.sticky;
+  $("openMode").value = s.openMode;
 }
 
 async function save() {
@@ -44,7 +45,8 @@ async function save() {
     pollMinutes: Math.max(0.5, Number($("pollMinutes").value) || 1),
     includeFieldChanges: $("includeFieldChanges").checked,
     includeOwn: $("includeOwn").checked,
-    sticky: $("sticky").checked
+    sticky: $("sticky").checked,
+    openMode: $("openMode").value
   });
   $("baseUrl").value = baseUrl;
   status("Saved.", "ok");

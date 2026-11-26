@@ -1,5 +1,11 @@
 # Changelog
 
+## 1.5.0 – 2026-11-26
+- New option **Open links in**: reuse an open YouTrack tab (default), a new tab in the current window, or a new window.
+  Applies to clicking notifications and items in the toolbar popup. Reusing a tab focuses its window and navigates
+  it to the issue; if no YouTrack tab is open, a new tab opens in your last-used window.
+- The popup now closes after you open an item.
+
 ## 1.4.1 – 2026-11-17
 - Renamed to **Notifier for YouTrack**; added "not affiliated with JetBrains" notice.
 - Fixed version comparison in the upgrade step (1.10 is now correctly newer than 1.3).

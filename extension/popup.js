@@ -45,8 +45,13 @@ async function render() {
 
     const a = document.createElement("a");
     a.href = n.url;
-    a.target = "_blank";
-    a.addEventListener("click", () => send({ type: "markRead", ids: [n.id] }));
+    a.addEventListener("click", async (e) => {
+      e.preventDefault();
+      // Let the background open it so the "Open links in" setting applies; then close the popup.
+      await send({ type: "markRead", ids: [n.id] });
+      await send({ type: "openUrl", url: n.url });
+      window.close();
+    });
     const t = document.createElement("div"); t.className = "title"; t.textContent = n.title;
     const m = document.createElement("div"); m.className = "msg"; m.textContent = n.message;
     const w = document.createElement("div"); w.className = "when"; w.textContent = ago(n.timestamp);

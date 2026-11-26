@@ -9,8 +9,50 @@ export const DEFAULTS = {
   pollMinutes: 1,
   includeOwn: false,           // notify about your own changes?
   includeFieldChanges: true,   // state/assignee/priority etc.
-  sticky: true                 // keep notifications on screen until dismissed
+  sticky: true,                // keep notifications on screen until dismissed
+  openMode: "reuse"            // "reuse" = reuse an open YouTrack tab; "tab" = new tab in current window; "window" = new window
 };
+
+// Open a YouTrack link according to the user's "Open links in" setting.
+export async function openUrl(url) {
+  const { openMode, baseUrl } = await getSettings();
+
+  const focusTab = async (tab) => {
+    await chrome.windows.update(tab.windowId, { focused: true });
+    return tab;
+  };
+
+  if (openMode === "window") {
+    return chrome.windows.create({ url, focused: true });
+  }
+
+  if (openMode === "reuse" && baseUrl) {
+    try {
+      // Needs no extra permission: we already have host access to the YouTrack origin.
+      const tabs = await chrome.tabs.query({ url: new URL(baseUrl).origin + "/*" });
+      if (tabs.length) {
+        let last;
+        try { last = await chrome.windows.getLastFocused(); } catch { /* none */ }
+        // Prefer a YouTrack tab in the window you used last, then the most recently used one.
+        tabs.sort((a, b) =>
+          ((b.windowId === last?.id) - (a.windowId === last?.id)) ||
+          ((b.active ? 1 : 0) - (a.active ? 1 : 0)) ||
+          ((b.lastAccessed || 0) - (a.lastAccessed || 0)));
+        const tab = await chrome.tabs.update(tabs[0].id, { url, active: true });
+        return focusTab(tab);
+      }
+    } catch (e) {
+      console.warn("[YT Notifier] reuse tab failed, opening a new tab", e);
+    }
+  }
+
+  // "tab" mode, or no YouTrack tab open: new tab in the last-used normal browser window.
+  let win;
+  try { win = await chrome.windows.getLastFocused({ windowTypes: ["normal"] }); } catch { /* none */ }
+  if (!win || win.type !== "normal") return chrome.windows.create({ url, focused: true });
+  const tab = await chrome.tabs.create({ windowId: win.id, url, active: true });
+  return focusTab(tab);
+}
 
 const OVERLAP_MS = 10 * 60 * 1000; // re-scan last 10 min to catch late-indexed activity
 const MAX_SEEN = 1000;

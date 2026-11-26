@@ -21,6 +21,7 @@ This extension fills that gap until JetBrains ships it.
 - **Watch / Stop watching** button (YouTrack's "Star") on every notification and in the list.
 - **Toolbar badge** with the unread count, and a popup list of recent items with read/unread and watch toggles.
 - **Grouped updates** – several changes on one issue become one pop-up ("+2 more").
+- **Opens links where you want them** – reuse an open YouTrack tab (default), a new tab, or a new window.
 - **Follows your system light/dark theme.**
 - **Fallback mode:** watch activity on issues matching any YouTrack search query (documented API only).
 - No servers, no analytics: the extension talks only to your YouTrack instance. See [PRIVACY.md](PRIVACY.md).

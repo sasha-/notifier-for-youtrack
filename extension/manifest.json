@@ -1,7 +1,7 @@
 {
   "manifest_version": 3,
   "name": "Notifier for YouTrack",
-  "version": "1.4.1",
+  "version": "1.5.0",
   "description": "Desktop notifications for your YouTrack notification center, with Mark read and Watch buttons. Not affiliated with JetBrains.",
   "permissions": [
     "alarms",

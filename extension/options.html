@@ -40,6 +40,15 @@
   <label class="check"><input id="includeFieldChanges" type="checkbox"> Notify on field changes (state, assignee, priority…)</label>
   <label class="check"><input id="includeOwn" type="checkbox"> Notify on my own changes</label>
   </div>
+  <label>Open links in
+    <select id="openMode">
+      <option value="reuse">An open YouTrack tab (reuse it), otherwise a new tab</option>
+      <option value="tab">A new tab in my current window</option>
+      <option value="window">A new window</option>
+    </select>
+    <small>Applies to clicking a notification and items in the toolbar popup.</small>
+  </label>
+
   <label class="check"><input id="sticky" type="checkbox"> Keep notifications on screen until I dismiss them</label>
 
   <div class="buttons">
